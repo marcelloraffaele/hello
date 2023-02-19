@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-LABEL maintainer="Accenture <arch@accenture.com>"
+LABEL maintainer="Raffaele Marcello <marcelloraffaele@gmail.com>"
 
 COPY nginx.conf /etc/nginx
 

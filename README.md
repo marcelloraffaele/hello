@@ -13,7 +13,7 @@ docker build --no-cache -t $IMG:$VER .
 # Test
 ## Run
 ```
-docker run --name mynginx -p 8080:80 -d $IMG:$VER
+docker run --name hello -p 8080:80 -d $IMG:$VER
 ```
 
 URL that can be called with 200 status:
@@ -33,8 +33,8 @@ curl http://localhost:8080/error403
 
 ## Stop
 ```
-docker container stop mynginx
-docker container rm mynginx
+docker container stop hello
+docker container rm hello
 ```
 
 # Push
