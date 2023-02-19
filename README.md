@@ -37,8 +37,25 @@ docker container stop hello
 docker container rm hello
 ```
 
-# Push
+# Install on kubernetes using Helm
+The project have a helm folder that can be used to release the `hello`.
+
+
+## Dry run:
 ```
-docker push $IMG:$VER
+cd helm
+helm install --generate-name --dry-run --debug hello > dry-run.yaml
+```
+
+## Install:
+```
+kubectl create ns test
+helm install hello-test ./hello -n test
+```
+
+## Uninstall
+```
+helm uninstall hello-test -n test
+kubectl delete ns test
 ```
 
