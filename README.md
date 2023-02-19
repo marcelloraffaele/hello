@@ -3,7 +3,7 @@ A simple and little image that can be used to test simple API.
 It's based on nginx open source.
 
 # Build
-
+If you want to rebuild it locally:
 ```
 IMG="rmarcello/hello"
 VER="1.0"
@@ -23,7 +23,7 @@ curl http://localhost:8080/hello
 curl http://localhost:8080/time
 ```
 
-and URL thay can be called for error:
+and URL that can be called for error:
 ```
 curl http://localhost:8080/error
 curl http://localhost:8080/error401
