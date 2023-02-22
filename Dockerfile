@@ -2,9 +2,9 @@ FROM nginx:alpine
 
 LABEL maintainer="Raffaele Marcello <marcelloraffaele@gmail.com>"
 
-COPY nginx.conf /etc/nginx
+COPY default.conf /etc/nginx/conf.d
 
-EXPOSE 80
+EXPOSE 8080
 
 STOPSIGNAL SIGTERM
 
