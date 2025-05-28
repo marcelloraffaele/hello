@@ -13,21 +13,21 @@ docker build --no-cache -t $IMG:$VER .
 # Test
 ## Run
 ```
-docker run --name hello -p 8080:80 -d $IMG:$VER
+docker run --name hello -p 8080:8080 -d $IMG:$VER
 ```
 
 URL that can be called with 200 status:
 ```
 curl http://localhost:8080/
-curl http://localhost:8080/hello
-curl http://localhost:8080/time
+curl http://localhost:8080/api/hello
+curl http://localhost:8080/api/time
 ```
 
 and URL that can be called for error:
 ```
-curl http://localhost:8080/error
-curl http://localhost:8080/error401
-curl http://localhost:8080/error403
+curl http://localhost:8080/api/error
+curl http://localhost:8080/api/error401
+curl http://localhost:8080/api/error403
 ```
 
 

@@ -1,0 +1,60 @@
+@baseUrl = http://localhost:8080
+### Root (HTML)
+GET {{baseUrl}}/
+
+###
+
+### /api/hello
+GET {{baseUrl}}/api/hello
+Accept: application/json
+
+###
+
+### /api/test
+GET {{baseUrl}}/api/test
+Accept: application/json
+
+###
+
+### /api/time
+GET {{baseUrl}}/api/time
+Accept: application/json
+
+###
+
+### /api/error  (expect 500)
+GET {{baseUrl}}/api/error
+
+###
+
+### /api/error401  (expect 401)
+GET {{baseUrl}}/api/error401
+
+###
+
+### /api/error403  (expect 403)
+GET {{baseUrl}}/api/error403
+
+GET {{baseUrl}}/api/test
+Accept: application/json
+
+###
+
+### /api/time
+GET http://{{baseUrl}}/api/time
+Accept: application/json
+
+###
+
+### /api/error  (expect 500)
+GET http://{{baseUrl}}/api/error
+
+###
+
+### /api/error401  (expect 401)
+GET http://{{baseUrl}}/api/error401
+
+###
+
+### /api/error403  (expect 403)
+GET http://{{baseUrl}}/api/error403
