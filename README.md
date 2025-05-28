@@ -59,3 +59,34 @@ helm uninstall hello-test -n test
 kubectl delete ns test
 ```
 
+# Path documentation
+Here is a Markdown table describing each API path and what to expect from each:
+
+| Path               | Method | Response Code | Content-Type         | Response Body                                      | Description                        |
+|--------------------|--------|--------------|----------------------|----------------------------------------------------|------------------------------------|
+| /                  | GET    | 200          | text/html (default)  | index.html                                         | Serves the main HTML page          |
+| /api/hello         | GET    | 200          | application/json     | { message: "hello world" }                         | Returns a hello world message      |
+| /api/test          | GET    | 200          | application/json     | { message: "this is a test" }                      | Returns a test message             |
+| /api/version       | GET    | 200          | application/json     | { version: "1.0", date: "20250528" }               | Returns version and date info      |
+| /api/time          | GET    | 200          | application/json     | {"status":"success","time":"$time_local","msec":"$msec"} | Returns server time and msec       |
+| /api/error         | GET    | 500          | text/html            | (empty)                                            | Returns a 500 Internal Server Error|
+| /api/error401      | GET    | 401          | text/html            | (empty)                                            | Returns a 401 Unauthorized error   |
+| /api/error403      | GET    | 403          | text/html            | (empty)                                            | Returns a 403 Forbidden error      |
+
+ # ready to use images
+
+ There's an image available for each branch:
+| Branch | Image |
+|--------|-------|
+| main   | ghcr.io/marcelloraffaele/hello:main |
+| blue   | ghcr.io/marcelloraffaele/hello:blue |
+| green  | ghcr.io/marcelloraffaele/hello:green |
+| under-construction | ghcr.io/marcelloraffaele/hello:under-construction |
+
+this can be used to test blue-green deployment.
+Example:
+```bash
+docker run --name hello -p 8080:8080 ghcr.io/marcelloraffaele/hello:main
+# or
+docker run --name hello -p 8080:8080 ghcr.io/marcelloraffaele/hello:blue
+```
