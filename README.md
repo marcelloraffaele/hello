@@ -13,7 +13,7 @@ docker build --no-cache -t $IMG:$VER .
 # Test
 ## Run
 ```
-docker run --name hello -p 8080:8080 -d $IMG:$VER
+docker run --name hello -p 8080:8080 -e "MY_ENV_VAR=my_value" -d $IMG:$VER
 ```
 
 URL that can be called with 200 status:
@@ -21,6 +21,9 @@ URL that can be called with 200 status:
 curl http://localhost:8080/
 curl http://localhost:8080/api/hello
 curl http://localhost:8080/api/time
+curl http://localhost:8080/api/all-env
+curl http://localhost:8080/api/env
+curl http://localhost:8080/api/headers
 ```
 
 and URL that can be called for error:
@@ -72,6 +75,9 @@ Here is a Markdown table describing each API path and what to expect from each:
 | /api/error         | GET    | 500          | text/html            | (empty)                                            | Returns a 500 Internal Server Error|
 | /api/error401      | GET    | 401          | text/html            | (empty)                                            | Returns a 401 Unauthorized error   |
 | /api/error403      | GET    | 403          | text/html            | (empty)                                            | Returns a 403 Forbidden error      |
+| /api/all-env        | GET    | 200          | application/json     | { ...all environment variables... }                 | Returns all environment variables  |
+| /api/env            | GET    | 200/400      | application/json     | { name: "MY_ENV_VAR", value: "..." } or error      | Returns a single environment variable by name |
+| /api/headers        | GET    | 200          | application/json     | { ...all request headers... }                       | Returns all request headers        |
 
  # ready to use images
 
@@ -82,6 +88,7 @@ Here is a Markdown table describing each API path and what to expect from each:
 | blue   | ghcr.io/marcelloraffaele/hello:blue |
 | green  | ghcr.io/marcelloraffaele/hello:green |
 | under-construction | ghcr.io/marcelloraffaele/hello:under-construction |
+| python | ghcr.io/marcelloraffaele/hello:python |
 
 this can be used to test blue-green deployment.
 Example:
