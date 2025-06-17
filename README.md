@@ -76,7 +76,7 @@ Here is a Markdown table describing each API path and what to expect from each:
 | /api/error401      | GET    | 401          | text/html            | (empty)                                            | Returns a 401 Unauthorized error   |
 | /api/error403      | GET    | 403          | text/html            | (empty)                                            | Returns a 403 Forbidden error      |
 | /api/all-env        | GET    | 200          | application/json     | { ...all environment variables... }                 | Returns all environment variables  |
-| /api/env            | GET    | 200/400      | application/json     | { name: "MY_ENV_VAR", value: "..." } or error      | Returns a single environment variable by name |
+| /api/env?name=MY_ENV_VAR            | GET    | 200/400      | application/json     | { name: "MY_ENV_VAR", value: "..." } or error      | Returns a single environment variable by name |
 | /api/headers        | GET    | 200          | application/json     | { ...all request headers... }                       | Returns all request headers        |
 
  # ready to use images
