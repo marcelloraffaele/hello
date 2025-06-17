@@ -1,6 +1,6 @@
 # hello
 A simple and little image that can be used to test simple API.
-It's based on nginx open source.
+It's based on Python.
 
 # Build
 If you want to rebuild it locally:
@@ -88,7 +88,7 @@ Here is a Markdown table describing each API path and what to expect from each:
 | blue   | ghcr.io/marcelloraffaele/hello:blue |
 | green  | ghcr.io/marcelloraffaele/hello:green |
 | under-construction | ghcr.io/marcelloraffaele/hello:under-construction |
-| python | ghcr.io/marcelloraffaele/hello:python |
+
 
 this can be used to test blue-green deployment.
 Example:
