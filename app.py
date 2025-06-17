@@ -18,7 +18,7 @@ def api_test():
 
 @app.route('/api/version')
 def api_version():
-    return jsonify({"version": "1.0", "date": "20250528"})
+    return jsonify({"version": "1.1", "date": "20250617"})
 
 @app.route('/api/time')
 def api_time():
