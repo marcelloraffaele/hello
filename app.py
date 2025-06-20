@@ -6,7 +6,16 @@ app = Flask(__name__, static_folder='.', static_url_path='')
 
 @app.route('/')
 def root():
-    return send_from_directory('.', 'index.html')
+    color_mode = os.environ.get('COLOR_MODE', 'INDEX').upper()
+    if color_mode == 'BLUE':
+        filename = 'blue.html'
+    elif color_mode == 'GREEN':
+        filename = 'green.html'
+    elif color_mode == 'MAINTENANCE':
+        filename = 'maintenance.html'
+    else:
+        filename = 'index.html'
+    return send_from_directory('./html', filename)
 
 @app.route('/api/hello')
 def api_hello():

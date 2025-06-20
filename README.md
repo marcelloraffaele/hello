@@ -14,6 +14,8 @@ docker build --no-cache -t $IMG:$VER .
 ## Run
 ```
 docker run --name hello -p 8080:8080 -e "MY_ENV_VAR=my_value" -d $IMG:$VER
+
+docker run --name hello -p 8080:8080 -e "COLOR_MODE=green" -d $IMG:$VER
 ```
 
 URL that can be called with 200 status:
@@ -97,3 +99,20 @@ docker run --name hello -p 8080:8080 ghcr.io/marcelloraffaele/hello:main
 # or
 docker run --name hello -p 8080:8080 ghcr.io/marcelloraffaele/hello:blue
 ```
+
+# Environment Variables
+
+The application supports the following environment variables:
+
+| Variable     | Description                                                                                 | Example Value   |
+|--------------|---------------------------------------------------------------------------------------------|-----------------|
+| COLOR_MODE   | Controls which HTML page is served at the root (`/`). Possible values: `BLUE`, `GREEN`, `MAINTENANCE`. If unset or any other value, defaults to `index.html`. | BLUE            |
+| MY_ENV_VAR   | Example environment variable for demonstration. Can be accessed via `/api/env?name=MY_ENV_VAR`. | my_value        |
+
+**Usage Example:**
+
+```
+docker run --name hello -p 8080:8080 -e "COLOR_MODE=BLUE" -d $IMG:$VER
+```
+
+This will serve `blue.html` at the root URL (`/`).

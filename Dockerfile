@@ -15,7 +15,7 @@ COPY --from=builder /root/.local /root/.local
 ENV PATH=/root/.local/bin:$PATH
 
 COPY app.py ./
-COPY index.html ./
+COPY html/ ./html/
 
 EXPOSE 8080
 
