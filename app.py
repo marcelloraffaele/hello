@@ -1,6 +1,9 @@
-from flask import Flask, jsonify, request, send_from_directory, abort
+from flask import Flask, jsonify, request, send_from_directory, abort, url_for
 import os
 import datetime
+import json
+
+from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -25,6 +28,82 @@ def root():
 @app.route('/api/hello')
 def api_hello():
     return jsonify({"message": "hello world"})
+
+
+@app.route('/openapi.json')
+def openapi_json():
+    """Return a minimal OpenAPI spec for the simple API.
+
+    This file builds a small, explicit OpenAPI document that documents the
+    public endpoints in this app. It's intentionally tiny and hand-maintained
+    so the project doesn't gain heavy dependencies.
+    """
+    host = request.host
+    base = ''
+    spec = {
+        "openapi": "3.0.2",
+        "info": {
+            "title": "hello API",
+            "version": "1.1",
+            "description": "Simple example API"
+        },
+        "servers": [{"url": request.host_url.rstrip('/') }],
+        "paths": {
+            "/api/hello": {
+                "get": {
+                    "summary": "Hello world",
+                    "responses": {"200": {"description": "OK"}}
+                }
+            },
+            "/api/test": {
+                "get": {
+                    "summary": "Test endpoint",
+                    "responses": {"200": {"description": "OK"}}
+                }
+            },
+            "/api/time": {
+                "get": {
+                    "summary": "Get server time",
+                    "responses": {"200": {"description": "OK"}}
+                }
+            },
+            "/api/version": {
+                "get": {"summary": "Version", "responses": {"200": {"description": "OK"}}}
+            },
+            "/api/env": {
+                "get": {
+                    "summary": "Get environment variable",
+                    "parameters": [{"name": "name", "in": "query", "required": True, "schema": {"type": "string"}}],
+                    "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}
+                }
+            },
+            "/api/all-env": {"get": {"summary": "All environment variables", "responses": {"200": {"description": "OK"}}}},
+            "/api/headers": {"get": {"summary": "Echo request headers", "responses": {"200": {"description": "OK"}}}},
+            "/api/error": {"get": {"summary": "Return 500", "responses": {"500": {"description": "Server Error"}}}},
+            "/api/error401": {"get": {"summary": "Return 401", "responses": {"401": {"description": "Unauthorized"}}}},
+            "/api/error403": {"get": {"summary": "Return 403", "responses": {"403": {"description": "Forbidden"}}}},
+            "/liveness": {"get": {"summary": "Get liveness", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Ready"}}}},
+            "/readiness": {"get": {"summary": "Get readiness", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Ready"}}}},
+            "/started": {"get": {"summary": "Get started", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Started"}}}},
+            "/liveness/{status}": {"post": {"summary": "Set liveness", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}},
+            "/readiness/{status}": {"post": {"summary": "Set readiness", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}},
+            "/started/{status}": {"post": {"summary": "Set started", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}}
+        }
+    }
+    return jsonify(spec)
+
+
+# Register Swagger UI at /docs with the generated /openapi.json
+SWAGGER_URL = '/docs'
+API_URL = '/openapi.json'
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "hello API"
+    }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
 @app.route('/api/test')
 def api_test():
