@@ -4,6 +4,11 @@ import datetime
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
+# Health flags (defaults: true)
+is_ready = True
+is_live = True
+is_started = True
+
 @app.route('/')
 def root():
     color_mode = os.environ.get('COLOR_MODE', 'INDEX').upper()
@@ -65,6 +70,70 @@ def api_error401():
 @app.route('/api/error403')
 def api_error403():
     abort(403)
+
+
+def _str_to_bool(s: str):
+    if s is None:
+        return None
+    s = s.strip().lower()
+    if s in ('1', 'true', 't', 'yes', 'y', 'on'):
+        return True
+    if s in ('0', 'false', 'f', 'no', 'n', 'off'):
+        return False
+    return None
+
+
+@app.route('/liveness', methods=['GET'])
+def get_liveness():
+    # Per user's mapping: liveness -> is_ready
+    if is_ready:
+        return ('', 200)
+    return ('', 500)
+
+
+@app.route('/readiness', methods=['GET'])
+def get_readiness():
+    # Per user's mapping: readiness -> is_live
+    if is_live:
+        return ('', 200)
+    return ('', 500)
+
+
+@app.route('/started', methods=['GET'])
+def get_started():
+    if is_started:
+        return ('', 200)
+    return ('', 500)
+
+
+@app.route('/liveness/<status>', methods=['POST'])
+def post_liveness(status: str):
+    global is_ready
+    val = _str_to_bool(status)
+    if val is None:
+        return jsonify({'error': 'invalid status, use true/false'}), 400
+    is_ready = val
+    return jsonify({'liveness': is_ready})
+
+
+@app.route('/readiness/<status>', methods=['POST'])
+def post_readiness(status: str):
+    global is_live
+    val = _str_to_bool(status)
+    if val is None:
+        return jsonify({'error': 'invalid status, use true/false'}), 400
+    is_live = val
+    return jsonify({'readiness': is_live})
+
+
+@app.route('/started/<status>', methods=['POST'])
+def post_started(status: str):
+    global is_started
+    val = _str_to_bool(status)
+    if val is None:
+        return jsonify({'error': 'invalid status, use true/false'}), 400
+    is_started = val
+    return jsonify({'started': is_started})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

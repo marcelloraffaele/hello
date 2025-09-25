@@ -56,5 +56,34 @@ GET http://{{baseUrl}}/api/error401
 
 ###
 
+### Health endpoints (liveness/readiness/started)
+
+### Get liveness (maps to is_ready)
+GET {{baseUrl}}/liveness
+
+### Set liveness to true
+POST {{baseUrl}}/liveness/true
+
+### Set liveness to false
+POST {{baseUrl}}/liveness/false
+
+### Get readiness (maps to is_live)
+GET {{baseUrl}}/readiness
+
+### Set readiness to true
+POST {{baseUrl}}/readiness/true
+
+### Set readiness to false
+POST {{baseUrl}}/readiness/false
+
+### Get started (maps to is_started)
+GET {{baseUrl}}/started
+
+### Set started to true
+POST {{baseUrl}}/started/true
+
+### Set started to false
+POST {{baseUrl}}/started/false
+
 ### /api/error403  (expect 403)
 GET http://{{baseUrl}}/api/error403
