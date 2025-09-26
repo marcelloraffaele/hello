@@ -79,12 +79,12 @@ def openapi_json():
             },
             "/api/all-env": {"get": {"summary": "All environment variables", "responses": {"200": {"description": "OK"}}}},
             "/api/headers": {"get": {"summary": "Echo request headers", "responses": {"200": {"description": "OK"}}}},
-            "/api/error": {"get": {"summary": "Return 500", "responses": {"500": {"description": "Server Error"}}}},
+            "/api/error": {"get": {"summary": "Return 503", "responses": {"503": {"description": "Server Error"}}}},
             "/api/error401": {"get": {"summary": "Return 401", "responses": {"401": {"description": "Unauthorized"}}}},
             "/api/error403": {"get": {"summary": "Return 403", "responses": {"403": {"description": "Forbidden"}}}},
-            "/liveness": {"get": {"summary": "Get liveness", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Ready"}}}},
-            "/readiness": {"get": {"summary": "Get readiness", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Ready"}}}},
-            "/started": {"get": {"summary": "Get started", "responses": {"200": {"description": "OK"}, "500": {"description": "Not Started"}}}},
+            "/liveness": {"get": {"summary": "Get liveness", "responses": {"200": {"description": "OK"}, "503": {"description": "Not Ready"}}}},
+            "/readiness": {"get": {"summary": "Get readiness", "responses": {"200": {"description": "OK"}, "503": {"description": "Not Ready"}}}},
+            "/started": {"get": {"summary": "Get started", "responses": {"200": {"description": "OK"}, "503": {"description": "Not Started"}}}},
             "/liveness/{status}": {"post": {"summary": "Set liveness", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}},
             "/readiness/{status}": {"post": {"summary": "Set readiness", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}},
             "/started/{status}": {"post": {"summary": "Set started", "parameters": [{"name": "status", "in": "path", "required": True, "schema": {"type": "string"}}], "responses": {"200": {"description": "OK"}, "400": {"description": "Bad Request"}}}}
@@ -140,7 +140,7 @@ def api_headers():
 
 @app.route('/api/error')
 def api_error():
-    abort(500)
+    abort(503)
 
 @app.route('/api/error401')
 def api_error401():
@@ -167,7 +167,7 @@ def get_liveness():
     # Per user's mapping: liveness -> is_ready
     if is_ready:
         return ('', 200)
-    return ('', 500)
+    return ('', 503)
 
 
 @app.route('/readiness', methods=['GET'])
@@ -175,14 +175,14 @@ def get_readiness():
     # Per user's mapping: readiness -> is_live
     if is_live:
         return ('', 200)
-    return ('', 500)
+    return ('', 503)
 
 
 @app.route('/started', methods=['GET'])
 def get_started():
     if is_started:
         return ('', 200)
-    return ('', 500)
+    return ('', 503)
 
 
 @app.route('/liveness/<status>', methods=['POST'])
