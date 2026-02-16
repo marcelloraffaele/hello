@@ -19,4 +19,5 @@ COPY html/ ./html/
 
 EXPOSE 8080
 
-CMD ["python", "app.py"]
+# Use opentelemetry-instrument for zero-code auto-instrumentation
+CMD ["opentelemetry-instrument", "python", "app.py"]

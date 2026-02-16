@@ -116,3 +116,10 @@ docker run --name hello -p 8080:8080 -e "COLOR_MODE=BLUE" -d $IMG:$VER
 ```
 
 This will serve `blue.html` at the root URL (`/`).
+
+# docker build 
+```
+docker build -t hello-autoinstrumentation:1.2 .
+
+docker run --rm --name hello -p 8080:8080 -e "APPLICATIONINSIGHTS_CONNECTION_STRING=<YOUR_CONNECTION_STRING>" -e "OTEL_SERVICE_NAME=helloService" hello-autoinstrumentation:1.2
+```
